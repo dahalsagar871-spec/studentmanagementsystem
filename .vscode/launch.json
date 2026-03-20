@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+
+
+    {
+      "type": "java",
+      "name": "Debug App",
+      "request": "launch",
+      "mainClass": "App",
+      "projectName": "StudentManagementSystem",
+      "vmArgs": "--module-path \"C:/javafx-sdk-25.0.2/lib\" --add-modules javafx.controls,javafx.fxml"
+      
+               
+      }
+    }
+  ]
+
