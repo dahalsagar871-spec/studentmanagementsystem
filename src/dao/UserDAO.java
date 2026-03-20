@@ -11,6 +11,7 @@ public class UserDAO {
     public UserDAO() {
         createTable();
         ensureAdminUser();
+        ensureTeacherUser();
     }
 
     private void createTable() {
@@ -28,7 +29,13 @@ public class UserDAO {
         }
     }
 
-    public void save(User user) {
+    private void ensureTeacherUser() {
+        if (findByUsername("teacher") == null) {
+            save(new User(0, "teacher", "teacher", "teacher"));
+        }
+    }
+
+    public boolean save(User user) {
         String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getUsername());
@@ -40,8 +47,10 @@ public class UserDAO {
                     user.setId(rs.getInt(1));
                 }
             }
+            return true;
         } catch (SQLException e) {
             System.err.println("[UserDAO] save error: " + e.getMessage());
+            return false;
         }
     }
 

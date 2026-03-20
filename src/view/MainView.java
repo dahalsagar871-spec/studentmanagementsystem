@@ -7,6 +7,7 @@ import controller.StudentController;
 import model.Course;
 import model.Enrollment;
 import model.Student;
+import model.User;
 
 import java.util.List;
 import java.util.Scanner;
@@ -31,7 +32,8 @@ public class MainView {
         System.out.print("Password: ");
         String pass = scanner.nextLine().trim();
 
-        if (!authController.authenticate(user, pass)) {
+        User loggedInUser = authController.authenticate(user, pass);
+        if (loggedInUser == null) {
             System.out.println("Invalid credentials. Use admin/admin.");
             return;
         }
@@ -44,6 +46,9 @@ public class MainView {
             System.out.println("4) List courses");
             System.out.println("5) Enroll student");
             System.out.println("6) List enrollments");
+            if ("teacher".equalsIgnoreCase(loggedInUser.getRole())) {
+                System.out.println("Teacher mode: read-only access in desktop app.");
+            }
             System.out.println("0) Exit");
             System.out.print("Select: ");
 
